@@ -1,15 +1,17 @@
 import React from 'react'
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput, TextInputProps } from 'react-native'
 import { theme } from '../theme'
 
 type Props = {
     placeholder?: string
-    onChange?: () => void
-    value?: string | number
+    onChange?: (text: string) => void
+    value?: string 
     style?: any
 }
 
-function StyledInput({ placeholder, onChange, value, style, ...restOfProps }: Props) {
+type AdditionalProps = Omit<TextInputProps, keyof Props>;
+
+function StyledInput({ placeholder, onChange, value, style, ...restOfProps}: Props & AdditionalProps) {
 
     const inputStyles = [
         styles.input,
@@ -17,7 +19,7 @@ function StyledInput({ placeholder, onChange, value, style, ...restOfProps }: Pr
     ]
 
     return (
-        <TextInput onChange={onChange} placeholder={placeholder} style={inputStyles} {...restOfProps}></TextInput>
+        <TextInput value={value} onChangeText={onChange} placeholder={placeholder} style={inputStyles}  {...restOfProps}></TextInput>
     )
 }
 

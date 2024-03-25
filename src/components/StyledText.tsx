@@ -9,6 +9,7 @@ type Props = {
     fontSize?: number | string;
     style?: any
     color?: string
+    onPress?: () => void
 }
 
 function StyledText({ children, color, fontSize, style, bold, semibold,  ...restOfProps }: Props) {

@@ -5,8 +5,17 @@ import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen'
 import Register from './src/screens/Register';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_AUTH } from './firebaseCofing';
+import InsideLayout from './src/layouts/InsideLayout';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const [user, setUser] = useState<User | null>(null)
 
   const [fontsLoaded] = useFonts({
     "inter-bold": require('./assets/fonts/Inter-Bold.ttf'),
@@ -21,6 +30,12 @@ export default function App() {
     prepare()
   }, [])
 
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      setUser(user)
+    })
+  }, [])
+
   if (!fontsLoaded) {
     return undefined;
   } else {
@@ -28,10 +43,24 @@ export default function App() {
   }
 
   return (
-    <View style={[styles.container]}>
-      <Register />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login'>
+        {
+          user ?
+            (
+              <Stack.Screen name='insideLayout' component={InsideLayout} options={{ headerShown: false }} />
+            )
+            :
+            (
+              <>
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+              </>
+            )
+        }
+
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
