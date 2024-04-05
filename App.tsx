@@ -16,6 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   const [user, setUser] = useState<User | null>(null)
+  const [refreshing, setRefreshing] = useState(false)
 
   const [fontsLoaded] = useFonts({
     "inter-bold": require('./assets/fonts/Inter-Bold.ttf'),
