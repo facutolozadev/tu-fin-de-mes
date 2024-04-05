@@ -6,14 +6,16 @@ type Props = {
   children?: React.ReactNode;
   onPress?: () => void;
   type?: 'primary' | 'secondary';
+  style?: any;
+  rounded?: string | number
 };
 
-const StyledButton = ({ children, onPress, type = 'primary' }: Props) => {
+const StyledButton = ({ children, onPress, type = 'primary', style }: Props) => {
   const buttonStyle = type === 'primary' ? styles.primaryButton : styles.secondaryButton;
   const textStyle = type === 'primary' ? styles.primaryText : styles.secondaryText;
 
   return (
-    <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, buttonStyle, {...style}]} onPress={onPress}>
       <Text style={[styles.buttonText, textStyle]}>{children}</Text>
     </TouchableOpacity>
   );

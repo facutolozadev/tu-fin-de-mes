@@ -1,9 +1,10 @@
 export const theme = {
   colors: {
-    primary: "#0000",
+    primary: "#000",
     secondary: "#696969",
     negative: "#ffff",
-    accent: "#FF6B00"
+    accent: "#FF6B00",
+    bg: "#F5F5F5"
   },
   fontSizes: {
     small: 15,
@@ -15,5 +16,5 @@ export const theme = {
     regular: 'inter-regular',
     semibold: 'inter-semibold',
     bold: 'inter-bold'
-  }
+  },
 };

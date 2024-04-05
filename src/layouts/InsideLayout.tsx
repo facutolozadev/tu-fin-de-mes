@@ -1,17 +1,31 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Home from '../screens/Home';
-import { StyleSheet } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet } from 'react-native';
+import Navbar from '../navigation/Navbar';
+import { StatusBar } from 'expo-status-bar';
+import { theme } from '../theme';
 
 type Props = {}
 
 const InsideStack = createNativeStackNavigator();
 
-function InsideLayout({}: Props) {
+function InsideLayout({ }: Props) {
   return (
-    <InsideStack.Navigator>
-        <InsideStack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-    </InsideStack.Navigator>
+    <>
+      <StatusBar translucent={false} backgroundColor={theme.colors.accent} />
+
+      <InsideStack.Navigator
+        screenOptions={{
+          header: (props: any) => <Navbar {...props} />,
+          headerShown: true,
+        }}
+      >
+
+        <InsideStack.Screen name="Home" component={Home} />
+      </InsideStack.Navigator>
+    </>
+
   )
 }
 

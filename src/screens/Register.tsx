@@ -4,7 +4,9 @@ import StyledText from '../components/StyledText'
 import StyledInput from '../components/StyledInput'
 import StyledButton from '../components/StyledButton'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { FIREBASE_AUTH } from '../../firebaseCofing'
+import { FIREBASE_AUTH, db } from '../../firebaseCofing'
+import { addDoc, collection } from 'firebase/firestore'
+import { createNewUser } from '../services/createUser'
 
 type Props = {
   navigation: any
@@ -20,15 +22,7 @@ function Register({ navigation }: Props) {
 
   const signUp = async () => {
     setLoading(true)
-    try {
-      const response = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(response)
-    } catch (error: any) {
-      console.log(error)
-      alert('No se pudo registrar ' + error.message)
-    } finally {
-      setLoading(false)
-    }
+    createNewUser(auth, email, password)
   }
 
   return (
@@ -36,18 +30,18 @@ function Register({ navigation }: Props) {
       <StyledText bold fontSize="bigger" style={{ textAlign: 'center' }}>Registrarme</StyledText>
       <StyledInput value={email} onChange={(text) => setEmail(text)} placeholder='Correo electrónico' autoCapitalize="none" />
       <StyledInput secureTextEntry={true} value={password} onChange={(text) => setPassword(text)} placeholder='Contraseña' autoCapitalize="none" />
-      <StyledInput secureTextEntry={true} value={confirmPassword} onChange={(text) => setConfirmPassword(text)} placeholder='Repetir contraseña' autoCapitalize="none"  />
+      <StyledInput secureTextEntry={true} value={confirmPassword} onChange={(text) => setConfirmPassword(text)} placeholder='Repetir contraseña' autoCapitalize="none" />
 
 
-    <Pressable onPress={() => navigation.navigate('Login')}>
+      <Pressable onPress={() => navigation.navigate('Login')}>
 
-      <StyledText semibold fontSize="small" color="accent">Ya tienes una cuenta? Inicia sesión</StyledText>
-    </Pressable>
+        <StyledText semibold fontSize="small" color="accent">Ya tienes una cuenta? Inicia sesión</StyledText>
+      </Pressable>
 
       {loading ? <ActivityIndicator size="large" color="#000ff" /> : (
 
-          <StyledButton type="primary" onPress={() => signUp()}>Registrarme</StyledButton>
-      
+        <StyledButton type="primary" onPress={() => signUp()}>Registrarme</StyledButton>
+
       )}
     </View>
   )
