@@ -15,6 +15,7 @@ import StyledText from '../components/StyledText';
 import AddButton from '../components/AddButton';
 import { sortByDate } from '../utils/sortByDate';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ItemList from '../components/ui/ItemList';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -81,77 +82,70 @@ function Home({ navigation }: RouterProps) {
 
 
   return (
+    <ScrollView>
+      <View style={styles.container}>
+        <ModalPicker
+          selectedOption={{ value: selectedOption?.value!, icon: selectedOption?.icon! }}
+          setSelectedOption={setSelectedOption}
+          options={[{
+            value: 'Total',
+            icon: require('../assets/icons/wallet.png')
+          }, ...wallets.map(wallet => ({
+            value: wallet.name,
+            icon: resolveIcon(wallet.icon!)
+          }))]}
+        />
 
-    <View style={styles.container}>
-      <ModalPicker
-        selectedOption={{ value: selectedOption?.value!, icon: selectedOption?.icon! }}
-        setSelectedOption={setSelectedOption}
-        options={[{
-          value: 'Total',
-          icon: require('../assets/icons/wallet.png')
-        }, ...wallets.map(wallet => ({
-          value: wallet.name,
-          icon: resolveIcon(wallet.icon!)
-        }))]}
-      />
+        <StyledText fontSize="big" semibold>
+          {
+            selectedOption?.value !== 'Total' ? (
+              `$${wallets.find((wallet) => wallet.name === selectedOption!.value)?.amount.toLocaleString()}`
 
-      <StyledText fontSize="big" semibold>
-        {
-          selectedOption?.value !== 'Total' ? (
-            `$${wallets.find((wallet) => wallet.name === selectedOption!.value)?.amount.toLocaleString()}`
+            ) : (
+              `$${total.toLocaleString()}`
+            )
+          }
+        </StyledText>
 
-          ) : (
-            `$${total.toLocaleString()}`
-          )
-        }
-      </StyledText>
-
-      <StyledButton type="secondary" style={{ width: '80%', paddingVertical: 20 }}>
-        <StyledText fontSize="small" semibold>Gestionar mes</StyledText>
-      </StyledButton>
-
-
-      <View style={styles.choose}>
-        <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'expenses' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('expenses')}>
-          <StyledText semibold color={`${viewExpensesOrIncomes === 'expenses' ? 'primary' : 'secondary'}`}>GASTOS</StyledText>
-        </Pressable>
-        <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'incomes' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('incomes')}>
-          <StyledText semibold color={`${viewExpensesOrIncomes === 'incomes' ? 'primary' : 'secondary'}`}>INGRESOS</StyledText>
-        </Pressable>
-      </View>
+        <StyledButton type="secondary" style={{ width: '80%', paddingVertical: 20 }}>
+          <StyledText fontSize="small" semibold>Gestionar mes</StyledText>
+        </StyledButton>
 
 
-      <View style={styles.monthIndicator}>
-        <Ionicons name="chevron-back" style={{ fontSize: 18, color: theme.colors.secondary }} />
-        <View style={{ gap: 4 }}>
-          <StyledText semibold color="secondary" fontSize="small">Marzo 2024</StyledText>
-          <StyledText semibold style={{ textAlign: 'center' }}>$0</StyledText>
+        <View style={styles.choose}>
+          <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'expenses' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('expenses')}>
+            <StyledText semibold color={`${viewExpensesOrIncomes === 'expenses' ? 'primary' : 'secondary'}`}>GASTOS</StyledText>
+          </Pressable>
+          <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'incomes' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('incomes')}>
+            <StyledText semibold color={`${viewExpensesOrIncomes === 'incomes' ? 'primary' : 'secondary'}`}>INGRESOS</StyledText>
+          </Pressable>
         </View>
-        <Ionicons name="chevron-forward" style={{ fontSize: 18, color: theme.colors.secondary }} />
-        <AddButton style={{ position: 'absolute', bottom: -40, right: '50%' }} />
-      </View>
 
 
-      <FlatList
-        nestedScrollEnabled={false}
-        style={styles.expensesOrIncomesList}
-        data={viewExpensesOrIncomes === 'expenses' ? currentWallet?.expenses : currentWallet?.incomes}
-        renderItem={({ item }) => (
-          <View style={[styles.listItem, styles.androidShadow]}>
-            <StyledText fontSize="small" >{item.concept}</StyledText>
-            <StyledText semibold color="secondary" fontSize="small">
-              {item.createdAt.toDate().toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-              })}
-            </StyledText>
-            <StyledText fontSize="small" semibold>${item.amount.toLocaleString()}</StyledText>
+        <View style={styles.monthIndicator}>
+          <Ionicons name="chevron-back" style={{ fontSize: 18, color: theme.colors.secondary }} />
+          <View style={{ gap: 4 }}>
+            <StyledText semibold color="secondary" fontSize="small">Marzo 2024</StyledText>
+            <StyledText semibold style={{ textAlign: 'center' }}>$0</StyledText>
           </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    </View>
+          <Ionicons name="chevron-forward" style={{ fontSize: 18, color: theme.colors.secondary }} />
+          <AddButton style={{ position: 'absolute', bottom: -40, right: '50%' }} />
+        </View>
+
+
+        <View style={styles.expensesOrIncomesList}>
+          {
+            viewExpensesOrIncomes === 'expenses'
+              ? currentWallet?.expenses?.map((item, index) => (
+                <ItemList item={item} index={index} />
+              ))
+              : currentWallet?.incomes?.map((item, index) => (
+                <ItemList item={item} index={index} />
+              ))
+          }
+        </View>
+      </View>
+    </ScrollView>
 
   )
 }
@@ -187,26 +181,8 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: 6
   },
-  listItem: {
-    width: '100%',
-    marginVertical: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: theme.colors.negative,
-    paddingHorizontal: 24,
-    paddingVertical: 25,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 6,
-      height: 6
-    },
-    shadowOpacity: .8,
-    shadowRadius: 4
-  },
-  androidShadow: {
-    elevation: 2
-  }
+
+
 
 
 })

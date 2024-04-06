@@ -24,7 +24,6 @@ function Login({ navigation }: Props) {
     setLoading(true)
     try {
       const response = await signInWithEmailAndPassword(auth, email, password)
-      console.log(response)
     } catch (error: any) {
       console.log(error)
       alert('No se pudo iniciar sesión: ' + error.message)
