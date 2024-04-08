@@ -32,21 +32,25 @@ function Home({ navigation }: RouterProps) {
   const [currentWallet, setCurrentWallet] = useState<Wallet | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false)
 
+  const { top } = useSafeAreaInsets()
 
-  const onRefresh = () => {
+  const fetchWallets = async () => {
+    const userWallets: Wallet[] = await getUserWallets();
+    setWallets(userWallets);
+    const totalAmount = userWallets.reduce((total, wallet) => total + wallet.amount, 0);
+    setTotal(totalAmount);
+    setSelectedOption({ value: 'Total', icon: require('../assets/icons/wallet.png') });
+    setIsLoading(false);
+  };
 
+  const onRefresh = async () => {
+    setIsRefreshing(true)
+    await fetchWallets()
+    setIsRefreshing(false)
   }
 
   /**FETCH WALLETS */
   useEffect(() => {
-    const fetchWallets = async () => {
-      const userWallets: Wallet[] = await getUserWallets();
-      setWallets(userWallets);
-      const totalAmount = userWallets.reduce((total, wallet) => total + wallet.amount, 0);
-      setTotal(totalAmount);
-      setSelectedOption({ value: 'Total', icon: require('../assets/icons/wallet.png') });
-      setIsLoading(false);
-    };
     fetchWallets();
   }, []);
 
@@ -79,10 +83,16 @@ function Home({ navigation }: RouterProps) {
     )
   }
 
-
-
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          progressViewOffset={top}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <View style={styles.container}>
         <ModalPicker
           selectedOption={{ value: selectedOption?.value!, icon: selectedOption?.icon! }}
@@ -108,7 +118,7 @@ function Home({ navigation }: RouterProps) {
         </StyledText>
 
         <StyledButton type="secondary" style={{ width: '80%', paddingVertical: 20 }}>
-          <StyledText  semibold>Gestionar mes</StyledText>
+          <StyledText semibold>Gestionar mes</StyledText>
         </StyledButton>
 
 
@@ -137,10 +147,10 @@ function Home({ navigation }: RouterProps) {
           {
             viewExpensesOrIncomes === 'expenses'
               ? currentWallet?.expenses?.map((item, index) => (
-                <ItemList  key={index} item={item}  />
+                <ItemList key={index} item={item} />
               ))
               : currentWallet?.incomes?.map((item, index) => (
-                <ItemList key={index} item={item}  />
+                <ItemList key={index} item={item} />
               ))
           }
         </View>
