@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 12,
         borderRadius: 8,
-        fontSize: theme.fontSizes.small,
         fontFamily: theme.fontWeights.semibold
     }
 })

@@ -3,17 +3,18 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 import { theme } from '../theme';
-import { StatusBar } from 'expo-status-bar';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 type Props = {}
 
 
 const Navbar = () => {
+
+    const navigation = useNavigation()
     return (
-      
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => console.log('Botón hamburguesa presionado')}>
-                    <Ionicons name="menu-outline" size={24} color="white" />
+                <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+                    <Ionicons  name="menu-outline" size={24} color="white" />
                 </TouchableOpacity>
 
                 <View style={styles.space} />

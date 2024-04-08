@@ -19,6 +19,7 @@ function StyledText({ children, color, fontSize, style, bold, semibold,  ...rest
         color === "secondary" && styles.colorSecondary,
         color === "negative" && styles.colorNegative,
         color === "accent" && styles.colorAccent,
+        color === "muted-negative" && styles.colorMutedNegative,
         fontSize === "small" && styles.small,
         fontSize === "big" && styles.big,
         fontSize === "bigger" && styles.bigger,
@@ -63,7 +64,10 @@ const styles = StyleSheet.create({
     },
     colorAccent: {
         color: theme.colors.accent
-    }
+    },
+    colorMutedNegative: {
+        color: theme.colors.mutedNegative
+    },
 
 
 })

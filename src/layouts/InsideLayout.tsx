@@ -1,8 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Home from '../screens/Home';
-import { Platform, SafeAreaView, StyleSheet } from 'react-native';
-import Navbar from '../navigation/Navbar';
 import { StatusBar } from 'expo-status-bar';
 import { theme } from '../theme';
 
@@ -16,11 +14,7 @@ function InsideLayout({ }: Props) {
       <StatusBar translucent={false} backgroundColor={theme.colors.accent} />
 
       <InsideStack.Navigator
-        screenOptions={{
-          header: (props: any) => <Navbar {...props} />,
-          headerShown: true,
-        }}
-      >
+        screenOptions={{ headerShown: false }}>
 
         <InsideStack.Screen name="Home" component={Home} />
       </InsideStack.Navigator>

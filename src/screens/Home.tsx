@@ -96,7 +96,7 @@ function Home({ navigation }: RouterProps) {
           }))]}
         />
 
-        <StyledText fontSize="big" semibold>
+        <StyledText fontSize="bigger" semibold>
           {
             selectedOption?.value !== 'Total' ? (
               `$${wallets.find((wallet) => wallet.name === selectedOption!.value)?.amount.toLocaleString()}`
@@ -108,16 +108,16 @@ function Home({ navigation }: RouterProps) {
         </StyledText>
 
         <StyledButton type="secondary" style={{ width: '80%', paddingVertical: 20 }}>
-          <StyledText fontSize="small" semibold>Gestionar mes</StyledText>
+          <StyledText  semibold>Gestionar mes</StyledText>
         </StyledButton>
 
 
         <View style={styles.choose}>
           <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'expenses' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('expenses')}>
-            <StyledText semibold color={`${viewExpensesOrIncomes === 'expenses' ? 'primary' : 'secondary'}`}>GASTOS</StyledText>
+            <StyledText semibold fontSize="big" color={`${viewExpensesOrIncomes === 'expenses' ? 'primary' : 'secondary'}`}>GASTOS</StyledText>
           </Pressable>
           <Pressable style={{ borderBottomWidth: viewExpensesOrIncomes === 'incomes' ? 2 : 0 }} onPress={() => setViewExpensesOrIncomes('incomes')}>
-            <StyledText semibold color={`${viewExpensesOrIncomes === 'incomes' ? 'primary' : 'secondary'}`}>INGRESOS</StyledText>
+            <StyledText semibold fontSize="big" color={`${viewExpensesOrIncomes === 'incomes' ? 'primary' : 'secondary'}`}>INGRESOS</StyledText>
           </Pressable>
         </View>
 
@@ -125,7 +125,7 @@ function Home({ navigation }: RouterProps) {
         <View style={styles.monthIndicator}>
           <Ionicons name="chevron-back" style={{ fontSize: 18, color: theme.colors.secondary }} />
           <View style={{ gap: 4 }}>
-            <StyledText semibold color="secondary" fontSize="small">Marzo 2024</StyledText>
+            <StyledText semibold color="secondary">Marzo 2024</StyledText>
             <StyledText semibold style={{ textAlign: 'center' }}>$0</StyledText>
           </View>
           <Ionicons name="chevron-forward" style={{ fontSize: 18, color: theme.colors.secondary }} />
@@ -137,10 +137,10 @@ function Home({ navigation }: RouterProps) {
           {
             viewExpensesOrIncomes === 'expenses'
               ? currentWallet?.expenses?.map((item, index) => (
-                <ItemList item={item} index={index} />
+                <ItemList  key={index} item={item}  />
               ))
               : currentWallet?.incomes?.map((item, index) => (
-                <ItemList item={item} index={index} />
+                <ItemList key={index} item={item}  />
               ))
           }
         </View>

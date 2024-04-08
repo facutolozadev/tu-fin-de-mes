@@ -51,7 +51,7 @@ function ModalPicker({ options, onItemPress, selectedOption, setSelectedOption }
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               <View style={{flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                 {selectedOption.icon && <Image source={selectedOption.icon} style={styles.icon}/>}
-                <StyledText fontSize="small">{selectedOption.value}</StyledText>
+                <StyledText>{selectedOption.value}</StyledText>
               </View>
               <Ionicons name="chevron-down" size={16}/>
             </View>
@@ -75,7 +75,7 @@ function ModalPicker({ options, onItemPress, selectedOption, setSelectedOption }
                   <TouchableOpacity onPress={() => selectOption(option)} key={index} style={styles.option}>
 
                     {option.icon && <Image source={option.icon} style={styles.icon}/>}
-                    <StyledText fontSize="small">{option.value}</StyledText>
+                    <StyledText >{option.value}</StyledText>
 
                   </TouchableOpacity>
                 ))
