@@ -35,7 +35,7 @@ function Register({ navigation }: Props) {
 
       <Pressable onPress={() => navigation.navigate('Login')}>
 
-        <StyledText semibold fontSize="small" color="accent">Ya tienes una cuenta? Inicia sesión</StyledText>
+        <StyledText semibold  color="accent">Ya tienes una cuenta? Inicia sesión</StyledText>
       </Pressable>
 
       {loading ? <ActivityIndicator size="large" color="#000ff" /> : (

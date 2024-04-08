@@ -6,21 +6,20 @@ import { theme } from '../../theme'
 
 type Props = {
     item: Expense | Income,
-    index: number
 }
 
-function ItemList({ item, index }: Props) {
+function ItemList({ item }: Props) {
     return (
-        <View key={index} style={[styles.listItem, styles.androidShadow]}>
-            <StyledText fontSize="small">{item.concept}</StyledText>
-            <StyledText semibold color="secondary" fontSize="small">
+        <View style={[styles.listItem, styles.androidShadow]}>
+            <StyledText>{item.concept}</StyledText>
+            <StyledText semibold color="secondary" >
                 {item.createdAt.toDate().toLocaleDateString('es-ES', {
                     day: '2-digit',
                     month: '2-digit',
                     year: '2-digit',
                 })}
             </StyledText>
-            <StyledText fontSize="small" semibold>${item.amount.toLocaleString()}</StyledText>
+            <StyledText semibold>${item.amount.toLocaleString()}</StyledText>
         </View>
     )
 }
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
     },
     androidShadow: {
         elevation: 2
-      }
+    }
 })
 
 export default ItemList

@@ -39,10 +39,10 @@ function Login({ navigation }: Props) {
       <StyledInput value={email} placeholder='Correo electrónico' onChange={(text: string) => setEmail(text)} autoCapitalize="none" />
       <StyledInput value={password} placeholder='Contraseña' secureTextEntry={true} onChange={(text: string) => setPassword(text)} autoCapitalize="none" />
       <View style={{ gap: 10 }}>
-        <StyledText semibold fontSize="small" color="accent">Olvidé mi contraseña</StyledText>
+        <StyledText semibold  color="accent">Olvidé mi contraseña</StyledText>
 
         <Pressable onPress={() => navigation.navigate('Register')}>
-          <StyledText semibold fontSize="small" color="accent">No tienes una cuenta? Regístrate</StyledText>
+          <StyledText semibold  color="accent">No tienes una cuenta? Regístrate</StyledText>
         </Pressable>
 
       </View>
