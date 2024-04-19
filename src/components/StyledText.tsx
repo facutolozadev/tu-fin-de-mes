@@ -36,7 +36,7 @@ function StyledText({ children, color, fontSize, style, bold, semibold,  ...rest
 const styles = StyleSheet.create({
     text: {
         fontFamily: theme.fontWeights.regular,
-        fontSize: theme.fontSizes.normal
+        fontSize: theme.fontSizes.normal,
     },
     bold: {
         fontFamily: theme.fontWeights.bold

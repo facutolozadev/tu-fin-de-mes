@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebaseCofing";
+import uuid from "react-native-uuid";
 
 export const createNewUser = async (
   auth: any,
@@ -15,21 +16,40 @@ export const createNewUser = async (
     );
     try {
       const userId = response.user.uid;
-      const userEmail = response.user.email;
+      const walletId = uuid.v4();
 
-      await addDoc(collection(db, "users"), {
+      await addDoc(collection(db, "wallets"), {
         userId,
-        userEmail,
-        wallets: [
-            {
-                name: 'Main',
-                icon: 'main',
-                amount: 0,
-                main: true
-            }
-        ]
+        userWallets: [
+          {
+            walletId: walletId,
+            name: "Main",
+            icon: "main",
+            main: true,
+            amount: 0,
+          },
+        ],
       });
 
+      await addDoc(collection(db, "expenses"), {
+        userId,
+        userExpenses: [
+          {
+            walletId,
+            value: []
+          }
+        ],
+      });
+     
+      await addDoc(collection(db, "incomes"), {
+        userId,
+        userIncomes: [
+          {
+            walletId,
+            value: []
+          }
+        ],
+      });
     } catch (error: any) {
       alert("No se pudo crear el cliente" + error.message);
     }

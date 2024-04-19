@@ -1,0 +1,37 @@
+export const EXPENSE_CONCEPTS = [
+  { name: "Alimentación" },
+  { name: "Transporte" },
+  { name: "Entretenimiento" },
+  { name: "Educación" },
+  { name: "Salud" },
+  { name: "Ropa" },
+  { name: "Hogar" },
+  { name: "Facturas" },
+  { name: "Viajes" },
+  { name: "Regalos" },
+  { name: "Tecnología" },
+  { name: "Seguros" },
+  { name: "Impuestos" },
+  { name: "Mascotas" },
+  { name: "Deudas" },
+  { name: "Otros" },
+];
+
+export const INCOME_CONCEPTS = [
+  { name: 'Salario' },
+  { name: 'Ventas' },
+  { name: 'Bonificaciones' },
+  { name: 'Comisiones' },
+  { name: 'Honorarios' },
+  { name: 'Alquileres' },
+  { name: 'Intereses' },
+  { name: 'Dividendos' },
+  { name: 'Subsidios' },
+  { name: 'Reembolsos' },
+  { name: 'Regalías' },
+  { name: 'Ayudas' },
+  { name: 'Préstamos' },
+  { name: 'Herencias' },
+  { name: 'Inversiones' },
+  { name: 'Otros' }
+];
