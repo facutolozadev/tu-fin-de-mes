@@ -8,10 +8,10 @@ import InsideLayout from "../layouts/InsideLayout";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import * as SplashScreen from 'expo-splash-screen'
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
-    const navigation = useNavigation();
   
     const [user, setUser] = useState<User | null>(null)
     useEffect(() => {
@@ -28,15 +28,19 @@ const StackNavigator = () => {
     }, [])
   
     return (
+     
       <Stack.Navigator
         screenOptions={{
-        header: () => <Navbar/>
+        headerShown: false,
+        statusBarTranslucent: true
         }}
-        initialRouteName='Login'>
+        initialRouteName='Login'
+        
+        >
         {
           user ?
             (
-              <Stack.Screen name='insideLayout' component={InsideLayout} options={{ headerTitle: () => null }} />
+              <Stack.Screen name='insideLayout' component={InsideLayout}  />
             )
             :
             (
@@ -48,6 +52,7 @@ const StackNavigator = () => {
         }
   
       </Stack.Navigator>
+    
     )
   }
 

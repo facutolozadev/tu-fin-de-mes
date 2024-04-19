@@ -1,18 +1,25 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { FIREBASE_AUTH, db } from "../../firebaseCofing";
 
-export const getUserWallets = async () => {
+export const getUserIncomes = async (walletId : string | number[]) => {
   try {
     if (FIREBASE_AUTH.currentUser) {
       const userId = FIREBASE_AUTH.currentUser.uid;
       const querySnapshot = await getDocs(
-        query(collection(db, "wallets"), where("userId", "==", userId))
+        query(collection(db, "incomes"), where("userId", "==", userId))
       );
-      const userWallets : any = [];
+
+      if (!querySnapshot) {
+        console.log("no se encontró colección expenses")
+        return null;
+      }
+
+      const userIncomes: any = [];
       querySnapshot.forEach((doc) => {
-        userWallets.push(...doc.data().userWallets);
+        const incomes = doc.data().userIncomes.find((el: any) => el.walletId === walletId) 
+        userIncomes.push(...incomes.value);
       });
-      return userWallets;
+      return userIncomes;
     } else {
       console.log("No hay usuario autenticado.");
     }

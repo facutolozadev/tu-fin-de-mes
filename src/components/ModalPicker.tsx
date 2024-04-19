@@ -69,7 +69,7 @@ function ModalPicker({ options, onItemPress, selectedOption, setSelectedOption }
           style={styles.modalContainer}
         >
           <View style={[styles.modal]}>
-            <ScrollView>
+            <ScrollView style={{width: '100%'}}>
               {
                 options.map((option, index) => (
                   <TouchableOpacity onPress={() => selectOption(option)} key={index} style={styles.option}>

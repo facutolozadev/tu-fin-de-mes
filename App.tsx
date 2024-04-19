@@ -1,11 +1,12 @@
 
-import { StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
-import {  useState } from 'react';
+import { useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler'
 import DrawerNavigator from './src/navigation/DrawerNavigator';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
 
@@ -22,9 +23,11 @@ export default function App() {
   }
 
   return (
+
     <NavigationContainer>
       <DrawerNavigator />
     </NavigationContainer>
+
   );
 }
 

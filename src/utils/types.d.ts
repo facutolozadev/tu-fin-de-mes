@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore"
 
 export type Wallet = {
+    walletId?: tring | number[],
     name: string,
     amount: number,
     main: boolean,
@@ -10,17 +11,23 @@ export type Wallet = {
 }
 
 export type Expense = {
-    id: number,
-    createdAt: Timestamp,
+    id?: number,
+    createdAt: any,
     amount: number,
     concept: string,
     comment?: string
 }
 
 export type Income = {
-    id: number,
+    id?: number,
     createdAt: Timestamp,
     amount: number,
     concept: string,
     comment?: string
+}
+
+export interface UserData {
+    userId: string,
+    userEmail: string,
+    wallets: Wallet[]
 }

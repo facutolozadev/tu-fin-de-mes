@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         shadowColor: '#000',
         shadowOffset: {
-            width: 6,
-            height: 6
+            width: 2,
+            height: 2
         },
-        shadowOpacity: .8,
+        shadowOpacity: .3,
         shadowRadius: 4
     },
     androidShadow: {
