@@ -34,7 +34,7 @@ function DrawerContent(props: any) {
         </View>
         <View style={styles.drawerLinks}>
           {DRAWER_LINKS.map((link, index) => (
-            <DrawerLink key={index} title={link.name} icon={link.icon} />
+            <DrawerLink key={index} title={link.name} icon={link.icon} route={link.route}/>
           ))}
         </View>
       </View>
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
   },
   drawerLinks: {
     paddingHorizontal: 36,
-    marginTop: 24
+    marginTop: 24,
+    gap: 20
   },
   logoutButton: {
     flexDirection: 'row',

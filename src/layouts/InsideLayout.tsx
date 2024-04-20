@@ -6,6 +6,7 @@ import { theme } from '../theme';
 import CreateExpense from '../screens/CreateExpense';
 import Navbar from '../navigation/Navbar';
 import CreateIncome from '../screens/CreateIncome';
+import WalletsView from '../screens/WalletsView';
 
 type Props = {}
 
@@ -21,6 +22,7 @@ function InsideLayout({ }: Props) {
         <InsideStack.Screen name="Home" component={Home}/>
         <InsideStack.Screen name="CreateExpense" component={CreateExpense} options={{header: () => <Navbar backOption currentTitle='Añadir Gasto'/>}}/>
         <InsideStack.Screen name="CreateIncome" component={CreateIncome} options={{header: () => <Navbar backOption currentTitle='Añadir Ingreso'/>}}/>
+        <InsideStack.Screen name="Wallets" component={WalletsView} />
       </InsideStack.Navigator>
     </>
 
