@@ -99,7 +99,7 @@ function Home({ route, navigation }: RouterProps) {
       setExpenses(sortByDate([...expenses, newExpense]))
     }
     if (route.params?.newIncome) {
-      const newIncome = route.params.newExpense;
+      const newIncome = route.params.newIncome;
       setIncomes(sortByDate([...incomes, newIncome]))
     }
   }, [route.params?.newExpense, route.params?.newIncome])

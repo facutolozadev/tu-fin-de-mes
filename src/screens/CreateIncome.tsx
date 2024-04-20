@@ -10,6 +10,7 @@ import StyledButton from '../components/StyledButton';
 import { FIREBASE_AUTH, db } from '../../firebaseCofing';
 import { Timestamp, collection, getDocs, query, updateDoc, where, arrayUnion, doc, getDoc } from 'firebase/firestore';
 import { INCOME_CONCEPTS } from '../utils/consts/concepts';
+import { ActivityIndicator } from 'react-native-paper';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -21,6 +22,7 @@ function CreateIncome({ navigation }: RouterProps) {
   const { wallets }: any = route.params;
   const [selectedWallet, setSelectedWallet] = useState<Option | null>(null)
   const [selectedConcept, setSelectedConcept] = useState<Option | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleAmountChange = (text: string) => {
     const cleanedText = text.replace(/,/g, '');
@@ -29,8 +31,10 @@ function CreateIncome({ navigation }: RouterProps) {
   };
 
   const handleCreateIncome = async () => {
+    setIsLoading(true)
     try {
       if (FIREBASE_AUTH.currentUser && selectedWallet?.value) {
+
         const userId = FIREBASE_AUTH.currentUser.uid;
 
         const currentWallet: Wallet = wallets.find((wallet: Wallet) => wallet.name === selectedWallet.value);
@@ -46,7 +50,7 @@ function CreateIncome({ navigation }: RouterProps) {
           const newIncome: Income = {
             createdAt: Timestamp.now(),
             amount: amount,
-            concept: "Regalo",
+            concept: selectedConcept?.value!,
           };
 
           if (currentWalletUserIncomesIndex !== -1) {
@@ -56,13 +60,14 @@ function CreateIncome({ navigation }: RouterProps) {
               userIncomes
             })
           }
-
+          setIsLoading(false)
           navigation.navigate('Home', { newIncome })
-
+          
         })
-
+        
       }
     } catch (e) {
+      setIsLoading(false)
       console.log('Error al agregar gasto', e);
     }
   };
@@ -96,7 +101,13 @@ function CreateIncome({ navigation }: RouterProps) {
           />
         </View>
       </View>
-      <StyledButton onPress={() => handleCreateIncome()} style={{ marginTop: 60 }}>Añadir</StyledButton>
+      {
+        !isLoading ? ( 
+          <StyledButton onPress={() => handleCreateIncome()} style={{ marginTop: 60 }}>Añadir</StyledButton>
+        ) : (
+          <ActivityIndicator color={theme.colors.accent} style={{marginTop: 80}} size="large"/>
+        )
+      }
     </View>
   )
 }
