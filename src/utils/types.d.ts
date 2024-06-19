@@ -31,3 +31,10 @@ export interface UserData {
     userEmail: string,
     wallets: Wallet[]
 }
+
+export type WalletHookResult = {
+    wallets: Wallet[];
+    isLoading: boolean;
+    fetchWallets: () => void;
+    total: number;
+  };

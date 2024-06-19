@@ -7,6 +7,7 @@ import CreateExpense from '../screens/CreateExpense';
 import Navbar from '../navigation/Navbar';
 import CreateIncome from '../screens/CreateIncome';
 import WalletsView from '../screens/WalletsView';
+import { WalletProvider } from '../context/WalletContext';
 
 type Props = {}
 
@@ -14,7 +15,7 @@ const InsideStack = createNativeStackNavigator();
 
 function InsideLayout({ }: Props) {
   return (
-    <>
+    <WalletProvider>
       <StatusBar translucent={false} backgroundColor={theme.colors.accent} />
 
       <InsideStack.Navigator screenOptions={{header: () => <Navbar />}}>
@@ -24,7 +25,7 @@ function InsideLayout({ }: Props) {
         <InsideStack.Screen name="CreateIncome" component={CreateIncome} options={{header: () => <Navbar backOption currentTitle='Añadir Ingreso'/>}}/>
         <InsideStack.Screen name="Wallets" component={WalletsView} />
       </InsideStack.Navigator>
-    </>
+    </WalletProvider>
 
   )
 }

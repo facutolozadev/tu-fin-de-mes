@@ -4,13 +4,14 @@ import StyledText from '../components/StyledText'
 import { NavigationProp, useRoute } from '@react-navigation/native';
 
 import { theme } from '../theme';
-import { Expense, Income, Wallet } from '../utils/types';
+import { Income, Wallet } from '../utils/types';
 import ModalPicker, { Option } from '../components/ModalPicker';
 import StyledButton from '../components/StyledButton';
 import { FIREBASE_AUTH, db } from '../../firebaseCofing';
-import { Timestamp, collection, getDocs, query, updateDoc, where, arrayUnion, doc, getDoc } from 'firebase/firestore';
+import { Timestamp, collection, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { INCOME_CONCEPTS } from '../utils/consts/concepts';
 import { ActivityIndicator } from 'react-native-paper';
+import { useWallets } from '../context/WalletContext';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -23,6 +24,7 @@ function CreateIncome({ navigation }: RouterProps) {
   const [selectedWallet, setSelectedWallet] = useState<Option | null>(null)
   const [selectedConcept, setSelectedConcept] = useState<Option | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const { increaseAmount } = useWallets()
 
   const handleAmountChange = (text: string) => {
     const cleanedText = text.replace(/,/g, '');
@@ -59,6 +61,9 @@ function CreateIncome({ navigation }: RouterProps) {
             await updateDoc(doc.ref, {
               userIncomes
             })
+
+            increaseAmount(currentWallet, amount)
+            
           }
           setIsLoading(false)
           navigation.navigate('Home', { newIncome })

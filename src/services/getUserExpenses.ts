@@ -2,8 +2,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { FIREBASE_AUTH, db } from "../../firebaseCofing";
 import { Expense } from "../utils/types";
 
-export const getUserExpenses = async (walletId: string | number[]) => {
-  
+export const getUserExpenses = async (walletId: string | number[], currentMonth: string) => {
+
   try {
     if (FIREBASE_AUTH.currentUser) {
       const userId = FIREBASE_AUTH.currentUser.uid;
