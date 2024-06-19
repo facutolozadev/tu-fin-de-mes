@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native'
 import StyledText from '../components/StyledText'
 import { NavigationProp, useRoute } from '@react-navigation/native';
-
 import { theme } from '../theme';
 import { Expense, Wallet } from '../utils/types';
 import ModalPicker, { Option } from '../components/ModalPicker';
 import StyledButton from '../components/StyledButton';
 import { FIREBASE_AUTH, db } from '../../firebaseCofing';
-import { Timestamp, collection, getDocs, query, updateDoc, where, arrayUnion, doc, getDoc } from 'firebase/firestore';
+import { Timestamp, collection, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { EXPENSE_CONCEPTS } from '../utils/consts/concepts';
+import { useWallets } from '../context/WalletContext';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -18,7 +18,8 @@ interface RouterProps {
 function CreateExpense({ navigation }: RouterProps) {
   const [amount, setAmount] = useState(0)
   const route = useRoute()
-  const { wallets }: any = route.params;
+  const { wallets } : any = route.params
+  const { substractAmount } = useWallets()
   const [selectedWallet, setSelectedWallet] = useState<Option | null>(null)
   const [selectedConcept, setSelectedConcept] = useState<Option | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -34,10 +35,11 @@ function CreateExpense({ navigation }: RouterProps) {
       if (FIREBASE_AUTH.currentUser && selectedWallet?.value) {
         setIsLoading(true)
         const userId = FIREBASE_AUTH.currentUser.uid;
-        const currentWallet: Wallet = wallets.find((wallet: Wallet) => wallet.name === selectedWallet.value);
+        const currentWallet: Wallet = wallets.find((wallet: Wallet) => wallet.name === selectedWallet.value)!;
         const userExpensesQuerySnapshot = await getDocs(
           query(collection(db, 'expenses'), where("userId", "==", userId))
         );
+
 
         userExpensesQuerySnapshot.forEach(async (doc) => {
           const userExpenses = doc.data().userExpenses
@@ -55,6 +57,8 @@ function CreateExpense({ navigation }: RouterProps) {
             await updateDoc(doc.ref, {
               userExpenses
             })
+
+            substractAmount(currentWallet, amount)
           }
 
           navigation.navigate('Home', { newExpense })
@@ -65,7 +69,7 @@ function CreateExpense({ navigation }: RouterProps) {
     } catch (e) {
       alert('Error al agregar gasto' + e);
       setIsLoading(false)
-    
+
     }
   };
 
@@ -100,10 +104,10 @@ function CreateExpense({ navigation }: RouterProps) {
 
 
       {
-        !isLoading ? ( 
+        !isLoading ? (
           <StyledButton onPress={() => handleCreateExpense()} style={{ marginTop: 60 }}>Añadir</StyledButton>
         ) : (
-          <ActivityIndicator color={theme.colors.accent} style={{marginTop: 80}} size="large"/>
+          <ActivityIndicator color={theme.colors.accent} style={{ marginTop: 80 }} size="large" />
         )
       }
     </View>

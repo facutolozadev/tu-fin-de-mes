@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import StyledText from '../StyledText'
 import { Expense, Income } from '../../utils/types'
@@ -27,6 +27,7 @@ function ItemList({ item }: Props) {
 const styles = StyleSheet.create({
     listItem: {
         width: '100%',
+        height: 70,
         marginVertical: 3,
         flexDirection: 'row',
         justifyContent: 'space-between',
